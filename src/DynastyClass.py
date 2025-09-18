@@ -20,8 +20,8 @@ class Dynasty:
             self.characters.append(ch)
 
     def __iter__(self):
-            for ch in self.characters:
-                yield ch
+        for ch in self.characters:
+            yield ch
 
     def __contains__(self, ch):
         if ch in self.characters:
