@@ -228,10 +228,8 @@ def main():
 
     st.header("Task 2: Infographic of Relationships between characters in GoT")
 
-    # Create tabs
     tab1, tab2, tab3 = st.tabs(["Game of Thrones Houses", "Members of Houses", "Graph of GOT Houses"])
 
-    # ---- Tab 1: Houses ----
     with tab1:
         st.header("Game of Thrones Houses")
 
@@ -242,7 +240,6 @@ def main():
         
         st.pyplot(plt)
 
-    # ---- Tab 2: Members ----
     with tab2:
         st.header("Members of Houses")
 
@@ -251,7 +248,6 @@ def main():
             for character in houses.characters:
                 st.write(character)
 
-    # ---- Tab 3: Graph + HTML ----
     with tab3:
         st.header("Graph of GOT Houses")
 
