@@ -1,0 +1,14 @@
+load goat, unload goat
+load cabbage, unload cabbage
+load goat, unload goat
+load wolf, unload wolf
+load goat, unload goat
+
+min cost (1 cross = -1 point):
+1,1,
+1,1
+1,1
+1
+
+Min cost = 7
+Min start performance = 7
