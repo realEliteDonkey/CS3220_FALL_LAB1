@@ -1,4 +1,4 @@
-from locations import loc_A, loc_B
+from src.locations import loc_A, loc_B
 
 feeding_rules = {
     (((0,0), 'Empty'),): 'MoveRight', 

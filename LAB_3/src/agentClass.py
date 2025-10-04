@@ -21,7 +21,7 @@ class Agent(Thing):
 
     def __init__(self, program=None):
         self.alive = True
-        self.performance = 3
+        self.performance = 6
         self.location=None
 
         if program is None or not isinstance(program, Callable):

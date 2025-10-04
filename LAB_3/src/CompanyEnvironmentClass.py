@@ -62,7 +62,25 @@ class CompanyEnvironment(environmentPro):
     no_agents = not any(agent.is_alive() for agent in self.agents)
     return no_agents or no_items
 
-
+  def status(self):
+    status = "LOC_A: "
+    for thing in self.things:
+      if thing.location == loc_A:
+        status += str(thing) + " "
+    status += "LOC_B: "
+    for thing in self.things:
+      if thing.location == loc_B:
+        status += str(thing) + " "
+    status += "LOC_C: " 
+    for thing in self.things:
+      if thing.location == loc_C:
+        status += str(thing) + " "
+    status += "\nLOC_D: "    
+    for thing in self.things:
+      if thing.location == loc_D:
+        status += str(thing) + " "
+    return status
+        
 
     
 

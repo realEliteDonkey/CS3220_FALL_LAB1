@@ -1,6 +1,6 @@
-from environmentClass import Environment
-from locations import *
-from food import *
+from src.environmentClass import Environment
+from src.locations import *
+from src.food import *
 
 import random
 
@@ -89,3 +89,10 @@ class CatFriendlyHouse(Environment):
                 
     def agent_stats(self, agent):
         print(f"Agent: {agent.location}, Perf: {agent.performance}")
+        
+    def status_str(self):
+        s = ""
+        for key in self.status:
+            s += str(key) + ": "
+            s += str(self.status[key]) + " "
+        return s

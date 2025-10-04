@@ -28,6 +28,7 @@ class Environment:
     return not any(agent.is_alive() for agent in self.agents)
 
   def step(self):
+    actions = []
     #Run the environment for one time step.
     if not self.is_done():
       actions = []

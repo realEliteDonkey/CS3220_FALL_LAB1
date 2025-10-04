@@ -10,6 +10,9 @@ class OfficeManager(Thing):
       self.hasMail = True
     else:
       print("Cannot take item.")
+      
+  def __repr__(self):
+        return f"{self.__class__.__name__}: {self.location}"
 
 class ITStaff(Thing):
   def __init__(self, location=None):
@@ -22,6 +25,9 @@ class ITStaff(Thing):
     else:
       print("Cannot take item.")
 
+  def __repr__(self):
+        return f"{self.__class__.__name__}: {self.location}"
+
 class Student(Thing):
   def __init__(self, location=None):
     self.location = None
@@ -32,6 +38,9 @@ class Student(Thing):
       self.hasPizza = True
     else:
       print("Cannot take item.")
+      
+  def __repr__(self):
+        return f"{self.__class__.__name__}: {self.location}"
     
   
 class Mail(Thing):
