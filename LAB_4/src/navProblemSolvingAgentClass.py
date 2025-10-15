@@ -8,8 +8,7 @@ class navProblemSolvingAgent(SimpleProblemSolvingAgentProgram):
     super().__init__(initial_state)
     self.dataGraph=dataGraph
     self.goal=goal
-    
-    self.performance=len(dataGraph.nodes())
+    self.performance= int(len(dataGraph.nodes()) / 2)
     
 
     if program is None or not isinstance(program, collections.abc.Callable):
@@ -22,6 +21,7 @@ class navProblemSolvingAgent(SimpleProblemSolvingAgentProgram):
 
 
   def update_state(self, state, percept):
+    print(f"Entering update_state navProblemSolvingAgent: {self.state}, {percept}")
     return percept
 
   def formulate_goal(self, state):
@@ -49,7 +49,7 @@ class navProblemSolvingAgent(SimpleProblemSolvingAgentProgram):
       acts.append(n.action)
     return acts[1:]
 
-  def run(self):
+  def run2(self):
     print("goal list:", self.goal)
     if isinstance(self.goal, list) and len(self.goal)>1:
       percept=self.state
@@ -65,6 +65,7 @@ class navProblemSolvingAgent(SimpleProblemSolvingAgentProgram):
         self.seq.append (self.search(problem))
         percept=current_goal
         self.goal.remove(goal)
+        print(f"Removed goal with state: {self.state}")
         print("goal list:", self.goal)
       if not self.seq:
                 return None
@@ -72,3 +73,5 @@ class navProblemSolvingAgent(SimpleProblemSolvingAgentProgram):
     else:
       print ("I have the only goal = {}". format(self.goal))
       return super().__call__(self.state)
+
+

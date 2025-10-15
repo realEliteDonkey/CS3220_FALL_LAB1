@@ -11,44 +11,46 @@ class SimpleProblemSolvingAgentProgram:
         self.alive=True
 
   def __call__(self, percept, curGoal=None):
-        """Formulate a goal and problem, then
-        search for a sequence of actions to solve it."""
-        #4-phase problem-solving process
-        #print(0)
-        temp=self.state
-        self.state = self.update_state(self.state, percept)
-        
-        if not self.seq:
+      """Formulate a goal and problem, then search for a sequence of actions to solve it."""
+      print("Enter call")
+
+      # Update state
+      self.state = self.update_state(self.state, percept)
+
+      # Only search if no current plan
+      if not self.seq:
+            print("Enter call 2")
             goal = self.formulate_goal(self.state)
-            
-            if isinstance(goal, list) and len(goal)>1:
-                  percept=self.state                         
-                  while len(self.goal)>0:
-                        #4-phase problem-solving process
-                        self.state = self.update_state(self.state, percept)
-                        current_goal=self.goal[0]
-                        goal = current_goal
-                        problem = self.formulate_problem(self.state, goal)
-                        self.seq.extend (self.search(problem))
-                        percept=current_goal
-                        self.goal.remove(goal)
-                  self.state = temp
+
+            # Handle multiple goals
+            if isinstance(goal, list) and len(goal) > 1:
+                  print("Enter call 3")
+                  for current_goal in goal:
+                        print(f"Processing goal: {current_goal}")
+                        problem = self.formulate_problem(self.state, current_goal)
+                        plan = self.search(problem)
+                        if plan:
+                              self.seq.extend(plan)
+                              self.performance -= len(plan)
+                              self.state = plan[-1]
+                              print(f"CURRENT STATE = {self.state}")
             else:
+                  print("Enter call 4")
                   problem = self.formulate_problem(self.state, goal)
-                  self.seq = self.search(problem)                 
-                  
-                  
-                        
+                  self.seq = self.search(problem)
+
+            # No plan found
             if not self.seq:
-                return None
-        else:
-              print("I have already don my work. Find someone else")
-              
-        #return self.seq.pop(0)
-        return None
+                  return None
+      else:
+            print("I have already done my work. Find someone else")
+
+      # Return next action
+      return self.seq.pop(0) if self.seq else None
 
   def update_state(self, state, percept):
-        raise NotImplementedError
+        print("Attempted to implement update_state")
+        
 
   def formulate_goal(self, state):
         raise NotImplementedError

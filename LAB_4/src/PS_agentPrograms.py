@@ -19,6 +19,8 @@ def BestFirstSearchAgentProgram(f=None):
       #print(node.state)
       frontier = PriorityQueue()
       frontier.put((1,node))
+      
+      print(f"problem.initial: {problem.initial}, Node: {node}")
       #node.color=nodeColors["frontier"]
       reached = {problem.initial:node}
 
@@ -76,8 +78,6 @@ def BestFirstSearchAgentProgramForShow(f=None):
       nodeColors[node.state] = "orange"
       steps += 1
       allNodeColors.append(dict(nodeColors))
-
-
 
       reached = {problem.initial:node}
 

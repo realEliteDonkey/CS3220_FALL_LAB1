@@ -1,3 +1,6 @@
+import random as rand
+from .prizeNodes import P_Node, P_PrizeNodes
+
 class Graph:
     '''A graph connects nodes (vertices) by edges (links). Each edge can also
     have a length associated with it. The constructor call is something like:
@@ -13,13 +16,26 @@ class Graph:
     '''
     def __init__(self, graph_dict=None):
       self.graph_dict = graph_dict or {}
+      self.pz_nodes = []
       self.make_graph()
+      
+    def gen_prize_nodes(self, graph_dict):
+        # List of P_Node()
+        node_list = []
+        for key in list(graph_dict.keys()):
+            node_list.append(P_Node(key))
+            self.pz_nodes.append(key)
+        P_PrizeNodes.generate_prizes(node_list)
+        
 
     def make_graph(self):
         """Make a digraph into an undirected graph by adding symmetric edges."""
         for a in list(self.graph_dict.keys()):
             for (b, dist) in self.graph_dict[a].items():
                 self.connect(b, a, dist)
+                
+        for a in list(self.graph_dict.keys()):
+            self.pz_nodes.append(a)
 
     def connect(self, A, B, distance):
         """Add a link from A to B of given distance, in one direction only."""
@@ -41,5 +57,9 @@ class Graph:
         s2 = set([k2 for v in self.graph_dict.values() for k2, v2 in v.items()])
         nodes = s1.union(s2)
         return list(nodes)
+    
 
-
+            
+            
+            
+            

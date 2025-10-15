@@ -23,4 +23,40 @@ romaniaLocations = dict(
     Oradea=(131, 571), Pitesti=(320, 368), Rimnicu=(233, 410),
     Sibiu=(207, 457), Timisoara=(94, 410), Urziceni=(456, 350),
     Vaslui=(509, 444), Zerind=(108, 531)
-    )
+)
+
+
+mazeData = dict(
+    N1=dict(N2=0),
+    N2=dict(N1=0, N3=0, N4=0),
+    N3=dict(N2=0),
+    N4=dict(N2=0, N5=0, N29=0),
+    N5=dict(N4=0, N6=0, N8=0),
+    N6=dict(N5=0, N7=0),
+    N7=dict(N6=0),
+    N8=dict(N5=0, N9=0, N10=0),
+    N9=dict(N8=0),
+    N10=dict(N8=0, N11=0, N26=0),
+    N11=dict(N10=0, N12=0, N15=0),
+    N12=dict(N11=0, N13=0),
+    N13=dict(N12=0, N14=0),
+    N14=dict(N13=0),
+    N15=dict(N11=0, N16=0),
+    N16=dict(N15=0, N17=0, N18=0),
+    N17=dict(N16=0),
+    N18=dict(N16=0, N19=0, N26=0),
+    N19=dict(N18=0, N32=0, N20=0),
+    N20=dict(N19=0, N21=0, N25=0),
+    N21=dict(N20=0, N22=0),
+    N22=dict(N21=0, N23=0),
+    N23=dict(N22=0, N24=0),
+    N24=dict(N23=0),
+    N25=dict(N20=0, N26=0, N27=0),
+    N26=dict(N10=0, N18=0, N25=0),
+    N27=dict(N25=0, N28=0, N29=0),
+    N28=dict(N27=0),
+    N29=dict(N4=0, N27=0, N30=0),
+    N30=dict(N29=0, N31=0),
+    N31=dict(N30=0),
+    N32=dict(N19=0)
+)

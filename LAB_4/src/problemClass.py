@@ -38,7 +38,7 @@ class Problem:
         list, as specified in the constructor. Override this method if
         checking against a single self.goal is not enough."""
         if isinstance(self.goal, list):
-            return self.goal.count(state)>0
+            return any(state == node.node_id for node in self.goal)
         else:
             return state == self.goal
 
