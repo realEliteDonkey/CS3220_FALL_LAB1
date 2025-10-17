@@ -33,12 +33,10 @@ class MazeNavigationEnvironment(Environment):
       row = random.randint(0, 6)
       col = random.randint(0, 6)
       if maze[row][col] == 1:
-        if init is None:
-          if goal is not (row, col):
-            init = (row, col)
-        elif goal is None:
-          if init is not (row, col):
-            goal = (row, col)
+        if init is None and goal != (row, col):
+          init = (row, col)
+        elif goal is None and init != (row, col):
+          goal = (row, col)
     
     return init, goal
           

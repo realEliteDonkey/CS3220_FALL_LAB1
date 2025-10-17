@@ -106,6 +106,7 @@ def main():
     #mazeEnv.printAlienLocations()
     
     initState, goalState = mazeEnv.genInitGoalState(maze)
+    print("Goal state: ", goalState)
     
     mazeProblem = MazeProblem(initState,goalState,mazeWorldGraph)
     testState=(0,2)

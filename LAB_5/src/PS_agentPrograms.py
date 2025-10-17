@@ -9,16 +9,35 @@ nodeColors={
     "expanded":"pink"
 }
 
-def BestFirstSearchAgentProgram(f=None):
-  #with BFS we choose a node, n, with minimum value of some evaluation function, f (n).
+  
+#   L/R = 2
+#   D = 1
+#   U = 4
+
+def BestFirstSearchAgentProgram(f=None):  
+    if f is None:
+        def f(node):
+            total_cost = 0
+            path = node.path()
+            print()
+            for i in range(1, len(path)):
+                print(path[i].action, " -> ", end="")
+                if path[i].action == "left" or path[i].action == "right":
+                    total_cost += 2
+                elif path[i].action == "up":
+                    total_cost += 4
+                elif path[i].action == "down":
+                    total_cost += 1
+            print("TOTAL_COST: ", total_cost)
+            return total_cost
+                
     
     def program(problem):
-
       node = Node(problem.initial)
       #node.color=nodeColors["start"]
       #print(node.state)
       frontier = PriorityQueue()
-      frontier.put((1,node))
+      frontier.put((f(node),node))
       print(f"The {node} is being pushed to frontier ...")
       #node.color=nodeColors["frontier"]
       reached = {problem.initial:node}
@@ -39,17 +58,19 @@ def BestFirstSearchAgentProgram(f=None):
         #reached.add(node.state)
         for child in node.expand(problem):
             if child.state not in reached or child.path_cost<reached[child.state].path_cost:
-                frontier.put((1,child))
+                frontier.put((f(child),child))
                 print(f"The child {child} is being pushed to frontier ...")
                 #child.color=nodeColors["frontier"]
                 reached.update({child.state:child})
             
         #node.color=nodeColors["expanded"]
       return None
-
-    return program
-  
     
+    return program
+
+
+
+
 def IDSearchAgentProgram(f=None):
     def program(problem):
         depth = 0

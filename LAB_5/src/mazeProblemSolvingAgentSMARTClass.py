@@ -24,7 +24,8 @@ class MazeProblemSolvingAgentSMART(MazeProblemSolvingAgent):
       print("\033[31mNo path found. Returning empty sequence.\033[0m")
       return []
     solution=self.actions_path(seq.path())
-    print("Solution (a sequence of actions) from the initial state to a goal: {}".format(solution))
+    print(f"Agent {self.id}")
+    print("Solution (a sequence of actions) from the initial state to a goal: \n{}".format(solution))
     return solution
   
   def actions_path(self, p):
