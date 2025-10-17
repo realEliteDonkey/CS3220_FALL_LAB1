@@ -49,19 +49,40 @@ def BestFirstSearchAgentProgram(f=None):
 
     return program
   
- 
-def IDSearchAgentProgram(f=None):
-  def program(problem):
-    #your code here
-    pass
     
- 
-      
+def IDSearchAgentProgram(f=None):
+    def program(problem):
+        depth = 0
+        while True:
+            result = DLS(problem, depth)
+            if result != 'cutoff':
+                return result
+            depth += 1
 
+    def DLS(problem, limit):
+        return RecursiveDLS(Node(problem.initial), problem, limit)
 
+    def RecursiveDLS(node, problem, limit):
+        if problem.goal_test(node.state):
+            print(f"\033[32mGoal found: {node}\033[0m")
+            return node
+        elif node.depth == limit:
+            return 'cutoff'
+        else:
+            cutoff_occurred = False
+            for child in node.expand(problem):
+                child.depth = node.depth + 1
+                result = RecursiveDLS(child, problem, limit)
+                if result == 'cutoff':
+                    cutoff_occurred = True
+                elif result is not None:
+                    return result
+            if cutoff_occurred:
+                return 'cutoff'
+            else:
+                return None
 
-
-
+    return program
 
 
 

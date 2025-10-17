@@ -10,6 +10,7 @@ from src.mazeData import intTupleTostr
 from src.mazeProblemClass import MazeProblem
 from src.PS_agentPrograms import BestFirstSearchAgentProgram
 from src.agents import ProblemSolvingMazeAgentBFS
+from src.agents import ProblemSolvingMazeAgentIDFS
 from src.naigationEnvironmentClass import MazeNavigationEnvironment
 from src.problemClass import Problem
 from src.nodeClass import Node
@@ -100,7 +101,7 @@ def main():
     
     
     mazeEnv = MazeNavigationEnvironment(mazeWorldGraph)
-    mazeEnv.generateAliens(maze, 4)
+    mazeEnv.generateAliens(maze, 6)
     #print("Tryinig to print")
     #mazeEnv.printAlienLocations()
     
@@ -120,7 +121,9 @@ def main():
     #seq=BFSAP1(mazeProblem)
     #print(seq)
     
-    BFS_MazeAgent = ProblemSolvingMazeAgentBFS(initState, mazeWorldGraph, goalState)
+    BFS_MazeAgent = ProblemSolvingMazeAgentBFS(initState, mazeWorldGraph, goalState, 1)
+    BFS_MazeAgent2 = ProblemSolvingMazeAgentIDFS(initState, mazeWorldGraph, goalState, 2)
+    
     #print(BFS_MazeAgent.goal)
     
     nodeColors.setdefault('goal', "green")
@@ -143,6 +146,7 @@ def main():
     net_maze.show("asteroidField.html", notebook=False)
     
     mazeEnv.add_thing(BFS_MazeAgent)
+    mazeEnv.add_thing(BFS_MazeAgent2)
     #print("AGENT STATE: ", BFS_MazeAgent.state)
     
     
@@ -168,14 +172,21 @@ def main():
     mazeEnv.printAlienLocations()
     
     i = 1
-    while BFS_MazeAgent.alive:
+    while BFS_MazeAgent.alive or BFS_MazeAgent2.alive:
         print("Step ", i)
         mazeEnv.step(mazeTM)
+        
         BFS_MazeAgent.location = BFS_MazeAgent.location  # Update agent location to match its state
-        print(f"Agent location: {BFS_MazeAgent.location}")
-        print(f"Agent Performance: {BFS_MazeAgent.performance}")
+        print(f"\nAgent1 location: {BFS_MazeAgent.location}")
+        print(f"Agent1 Performance: {BFS_MazeAgent.performance}")
+        
+        BFS_MazeAgent2.location = BFS_MazeAgent2.location  # Update agent location to match its state
+        print(f"\nAgent2 location: {BFS_MazeAgent2.location}")
+        print(f"Agent2 Performance: {BFS_MazeAgent2.performance}")
+        
         i += 1
         
-    print("End simulation")
+    print("End simulation BFS & IDFS")
+
 
 main()

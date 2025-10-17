@@ -65,9 +65,9 @@ class MazeNavigationEnvironment(Environment):
     elif agent.state==agent.goal or len(agent.seq)==0:
       agent.alive = False
       if len(agent.seq)==0:
-        print("\033[32mAgent reached all goals\033[0m")
+        print(f"\033[32mAgent {agent.id} reached all goals\033[0m")
       else:
-        print(f"\033[32mAgent reached the goal: {agent.goal}\033[0m")
+        print(f"\033[32mAgent {agent.id} reached the goal: {agent.goal}\033[0m")
       
 
   def execute_action(self, agent: MazeProblemSolvingAgentSMART, action, TM: dict):
@@ -108,16 +108,16 @@ class MazeNavigationEnvironment(Environment):
             if not agent.seq:
               return
             action=agent.seq.pop(0)
-            print("Agent decided to do {}.".format(action))
+            print(f"Agent {agent.id} decided to do {action}.")
             actions.append(action)
             
             for alien in self.aliens:
               if agent.location == alien.location:
                 if alien.power >= (2 * agent.performance):
-                  print("\033[31mAlien destroyed spaceship\033[0m")
+                  print(f"\033[31mAlien destroyed spaceship {agent.id}\033[0m")
                   agent.performance = 0
                 else:
-                  print("\033[31mAlien damaged spaceship: -10%\033[0m")
+                  print(f"\033[31mAlien damaged spaceship {agent.id}: -10%\033[0m")
                   agent.performance = int(agent.performance * 0.90)
           else:
             actions.append("")

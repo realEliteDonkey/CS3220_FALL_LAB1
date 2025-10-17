@@ -9,6 +9,7 @@ class SimpleProblemSolvingAgentProgram:
         self.location = initial_state
         print("Agent init loc: ", initial_state)
         self.alive=True
+        self.id = 0
 
   def __call__(self, percept, curGoal=None):
         """Formulate a goal and problem, then
@@ -50,7 +51,7 @@ class SimpleProblemSolvingAgentProgram:
   def update_state(self, action, TM: dict):
     print("\n\n\n\nEnter update_state()\n\n\n\n")
     if self.location not in TM:
-        print("No transitions found for", self.location)
+        print(f"Agent: {self.id} No transitions found for {self.location}")
         return self.state
 
     inner_dict = TM[self.location]

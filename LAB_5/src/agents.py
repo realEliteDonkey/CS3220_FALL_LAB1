@@ -33,10 +33,12 @@ from src.mazeProblemSolvingAgentSMARTClass import MazeProblemSolvingAgentSMART
 #from vacuumProblemSolvingAgentShowClass import VacuumProblemSolvingAgentDraw
 #from src.navProblemSolvingAgentClass import navProblemSolvingAgent
 
-def ProblemSolvingMazeAgentBFS(initState,mazeWorldGraph,goalState):
+def ProblemSolvingMazeAgentBFS(initState,mazeWorldGraph,goalState,id):
     #return MazeProblemSolvingAgentSMART(initState,mazeWorldGraph,goalState,BestFirstSearchAgentProgramForShow())
-    return MazeProblemSolvingAgentSMART(initState,mazeWorldGraph,goalState,BestFirstSearchAgentProgram())
+    return MazeProblemSolvingAgentSMART(initState,mazeWorldGraph,goalState,BestFirstSearchAgentProgram(), id)
  
+def ProblemSolvingMazeAgentIDFS(initState,mazeWorldGraph,goalState,id):
+    return MazeProblemSolvingAgentSMART(initState,mazeWorldGraph,goalState,IDSearchAgentProgram(), id)
 # def ProblemSolvingNavAgentBFS(initState,WorldGraph,goalState):
 #     return navProblemSolvingAgent(initState,WorldGraph,goalState,BestFirstSearchAgentProgram())
 

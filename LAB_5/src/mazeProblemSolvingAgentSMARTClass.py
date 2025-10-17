@@ -2,12 +2,15 @@ from src.mazeProblemSolvingAgentClass import MazeProblemSolvingAgent
 import collections
 
 class MazeProblemSolvingAgentSMART(MazeProblemSolvingAgent):
-  def __init__(self, initial_state=None, dataGraph=None, goal=None, program=None):
+  def __init__(self, initial_state=None, dataGraph=None, goal=None, program=None, id=None):
     super().__init__(initial_state,dataGraph,goal)
     self.performance=len(dataGraph.nodes()) / 2
     self.location = initial_state
+    self.id = id
 
     if program is None or not isinstance(program, collections.abc.Callable):
+      if program is None:
+        print("Program is None")
       print("Can't find a valid program for {}, falling back to default.".format(self.__class__.__name__))
 
       def program(percept):
@@ -17,6 +20,9 @@ class MazeProblemSolvingAgentSMART(MazeProblemSolvingAgent):
 
   def search(self, problem):
     seq = self.program(problem)
+    if seq is None:
+      print("\033[31mNo path found. Returning empty sequence.\033[0m")
+      return []
     solution=self.actions_path(seq.path())
     print("Solution (a sequence of actions) from the initial state to a goal: {}".format(solution))
     return solution
@@ -29,7 +35,7 @@ class MazeProblemSolvingAgentSMART(MazeProblemSolvingAgent):
   
   def update_state(self, action, TM: dict):
     if self.location not in TM:
-        print("No transitions found for", self.location)
+        print(f"Agent: {self.id} No transitions found for {self.location}")
         return self.state
 
     inner_dict = TM[self.location]
