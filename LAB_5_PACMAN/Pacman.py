@@ -43,19 +43,23 @@ ROWS = 11
 GHOST_COUNT = 5
 
 
-    
+input_frozen = False
+agent_state = True
 
 """ ENVIRONMENT """
+
 
 class Environment:
 
     def __init__(self):
         # PYGAME
+        pygame.init()
         self.screen_width = CELL_SIZE * COLS
         self.screen_height = CELL_SIZE * ROWS
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         self.delta = 0
         self.running = False
+        self.font = pygame.font.SysFont('Arial', 24)
         pygame.display.set_caption("Pacman Assignment")
         # GRAPH
         self.graph = self.make_base_graph()
@@ -74,18 +78,21 @@ class Environment:
                 self.running = False
                 print("Quit pressed")
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
-                    print("Enter key pressed")
-                    for agent in self.agents:
-                        agent.step()
+                global input_frozen
+                if input_frozen == False:
+                    if event.key == pygame.K_RETURN:
+                        print("Enter key pressed")
+                        for agent in self.agents:
+                            agent.step()
 
-                    self.update()
+                        self.update()
 
     def update(self):
         
         for agent in self.agents:
             if agent.loc == agent.current_goal.loc:
                 print("Agent reached its next goal")
+                agent.performance *= 2
 
                 # Remove the reached goal
                 if agent.goals_min_heap:
@@ -115,6 +122,7 @@ class Environment:
 
     def render(self):
         self.screen.fill("black")
+        
         for y in range(ROWS):
             for x in range(COLS):
                 if self.graph[y][x] == 1:
@@ -132,6 +140,26 @@ class Environment:
                                        CELL_SIZE/2, CELL_SIZE/2)
                     pygame.draw.rect(self.screen, 'red', rect)
         self.render_agent()
+        
+        # draw game information
+        for i, agent in enumerate(self.agents):
+            score_text = self.font.render(f"Performance: {agent.performance}", True, (255, 255, 0))
+            self.screen.blit(score_text, (10, 10 + i * 30))
+        
+        global agent_state
+        global input_frozen
+        if agent_state == False:
+            global input_frozen
+            input_frozen = True
+            score_text = self.font.render(f"PAC-MAN HORRIFICALLY KILLED", True, (255, 255, 0))
+            self.screen.blit(score_text, (400, 10))
+            
+        for agent in self.agents:
+            if agent.loc == self.goal and len(agent.goals_min_heap) == 0:
+                input_frozen = True
+                print("Agent reached exit!") 
+                score_text = self.font.render(f"PAC-MAN WINS", True, (255, 255, 0))
+                self.screen.blit(score_text, (400, 10))
 
     def render_agent(self):
         for agent in self.agents:
@@ -248,7 +276,7 @@ class Agent:
         self.program = program
         self.goals_min_heap = []
         self.step_count = 0
-        self.performance = 100
+        self.performance = 30
         self.current_goal = None
         
     def update_goals(self):
@@ -308,8 +336,28 @@ class Agent:
         self.loc = next_pos
         self.x, self.y = next_pos
         self.step_count += 1
-
+        if dir is not None:
+            self.performance -= 1
+        
         print(f"Pacman moved {dir} to {self.loc}")
+        # check cell
+        if self.graph[self.y][self.x] == 4:
+            global input_frozen
+            global agent_state
+            if self.performance >= 30:
+                self.performance *= 0.90
+                self.performance = int(self.performance)
+                if self.performance <= 0:
+                    print("PAC-MAN is dead")
+                    agent_state = False
+                    input_frozen = True
+            else:
+                self.performance = 0
+                print("Ghost murdered PAC-MAN")
+                agent_state = False
+                input_frozen = True
+                
+        
         
     
     def step(self):
@@ -333,6 +381,20 @@ class Food:
     def __gt__(self, other):
         return self.manhatten_dist > other.manhatten_dist
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 """ RUN THE GAME """
 
