@@ -35,6 +35,7 @@ def AC3(csp):
         if Xk != Xi:
           queue.add((Xk, Xj))'''
 
+  
       
   return True, checks  # CSP is satisfiable
 
@@ -97,6 +98,7 @@ def unordered_domain_values(var, assignment, csp):
 
 
 def backtracking_search(csp, select_unassigned_variable=first_unassigned_variable, order_domain_values=unordered_domain_values):
+    steps = []
     
     def backtrack(assignment):
         if len(assignment) == len(csp.variables):
@@ -105,15 +107,28 @@ def backtracking_search(csp, select_unassigned_variable=first_unassigned_variabl
         var = select_unassigned_variable(assignment, csp)
         for value in order_domain_values(var, assignment, csp):
             if csp.nconflicts(var, value, assignment)==0:
+                # log the assigment
+                steps.append({
+                  "action": "assign",
+                  "var": var,
+                  "value": value,
+                })
                 csp.assign(var, value, assignment)
                 result = backtrack(assignment)
                 if result is not None:
                   return result
                 
+            # log the removal
+            steps.append({
+                "action": "unassign",
+                "var": var,
+                "value": assignment.get(var),
+            })
+                
             csp.unassign(var, assignment)
         return None
 
     result = backtrack({})
-    return result
+    return result, steps
 
 

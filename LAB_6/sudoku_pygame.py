@@ -41,6 +41,8 @@ GLOBAL_MOUSE_Y = 0
 # 3 displays completely solved board
 STATE_SELECTOR = 1
 
+saved_domain_state = None
+
 
 # create window
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -61,7 +63,7 @@ board_og = [
 
 
 
-def event_handler(board_sol):
+def event_handler(board_sol, board_og=None, sol_steps=None):
     global STATE_SELECTOR
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -69,11 +71,26 @@ def event_handler(board_sol):
             sys.exit()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                if STATE_SELECTOR == 0:
+                if STATE_SELECTOR == 1:
                     draw_board(board_og)
                     
-                elif STATE_SELECTOR == 1:
-                    draw_board(board_sol)
+                elif STATE_SELECTOR == 0:
+                    if sol_steps is not None and board_og is not None:
+                        for step in sol_steps:
+                            var = step["var"]
+                            row = ord(var[0].upper()) - ord('A')
+                            col = int(var[1]) - 1
+
+                            if step["action"] == "unassign":
+                                board_og[row][col] = 0
+                            else:
+                                board_og[row][col] = step["value"]
+                            time.sleep(0.1)
+                            draw_board(board_og)
+                            pygame.display.update()
+                    else:
+                        draw_board(board_sol)
+                        pygame.display.update()
                     
                 pygame.display.flip()
                 
@@ -191,7 +208,7 @@ def draw_board(board):
     
                 
     
-saved_domain_state = None
+
 
 def main():
     clock = pygame.time.Clock()
@@ -211,7 +228,7 @@ def main():
     board_sol = copy.deepcopy(board_og)
     if result == True:
         # returns full solution after AC3 runs for checks
-        sol = backtracking_search(sudoku_csp)
+        sol, steps = backtracking_search(sudoku_csp)
         if sol:
             print("Solution: ", sol)
             # updates matrix grid according to solution
@@ -236,7 +253,7 @@ def main():
     draw_board(board_og)
     
     while True:
-        event_handler(board_sol)
+        event_handler(board_sol, board_og, steps)
         mouse_hover_info(saved_domain_state)
         pygame.display.flip()
         clock.tick(60)
